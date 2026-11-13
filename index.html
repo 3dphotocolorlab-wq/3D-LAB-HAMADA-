@@ -491,18 +491,11 @@ body.dark{--ink:#e5e7eb;--muted:#a8b3c4;--line:#39475b;--bg:#111827;--white:#1c2
 <script>
   setInterval(function() {
     const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
-    const hasCloudUrl = localStorage.getItem('cloudUrl') || localStorage.getItem('scriptUrl') || localStorage.getItem('webAppUrl');
-    
-    if (!isTyping && hasCloudUrl) {
-      if (typeof syncData === 'function') {
-        syncData(true);
-      } else if (typeof fetchFromCloud === 'function') {
-        fetchFromCloud(true);
-      } else if (typeof loadFromCloud === 'function') {
-        loadFromCloud(true);
-      } else {
-        const syncBtn = Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('مزامنة'));
-        if (syncBtn) syncBtn.click();
+    if (!isTyping && typeof cloudUrl !== 'undefined' && cloudUrl && typeof pullFromCloud === 'function') {
+      pullFromCloud(true);
+    }
+  }, 10000);
+</script>
       }
     }
   }, 10000);
